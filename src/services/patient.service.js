@@ -1,9 +1,10 @@
+const httpStatus = require('http-status');
 const Patient = require('../models/patient.model');
+const ApiError = require('../utils/ApiError');
 
 const createPatient = async (patientData) => {
     try {
-        const patient = await Patient.create(patientData);
-        return patient;
+        return Patient.create(patientData);
     } catch (error) {
         console.log('patientService.createPatient', error);
     }
@@ -13,14 +14,13 @@ const updatePatient = async (patientId, patientData) => {
     try {
         const patient = await getPatientById(patientId);
         if (!patient) {
-            // not found error
+            throw new ApiError(httpStatus.NOT_FOUND, 'Patient not found');
         }
-        const updatedPatient = await Patient.updateOne(
+        return Patient.updateOne(
             { _id: patientId },
             patientData,
             { upsert: true }
         );
-        return updatedPatient;
     } catch (error) {
         console.log('patientService.updatePatient', error);
     }

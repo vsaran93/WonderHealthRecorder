@@ -11,6 +11,8 @@ const patientSchema = new Schema({
         type: Date,
         required: true
     }
+}, {
+    timestamps: true
 });
 
 const Patient = mongoose.model('Patient', patientSchema);
