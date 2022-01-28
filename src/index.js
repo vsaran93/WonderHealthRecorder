@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
-const port = 3005;
+
+const mongoose = require('./config/db');
+const { port } = require('./config/var');
+
+mongoose.connect();
 
 app.get('/', (req, res) => {
     res.send('Hello world');
