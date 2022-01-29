@@ -20,6 +20,11 @@ const patientLabResultSchema = new Schema({
   timestamps: false,
 });
 
+patientLabResultSchema.index(
+  { patient_id: 1, blood_test_result: 1, swab_test_result: 1 },
+  { unique: true },
+);
+
 const PatientLabResult = mongoose.model('PatientLabResult', patientLabResultSchema);
 
 module.exports = PatientLabResult;

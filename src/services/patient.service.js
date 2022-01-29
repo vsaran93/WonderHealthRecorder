@@ -1,5 +1,6 @@
 const httpStatus = require('http-status');
 const Patient = require('../models/patient.model');
+const PatientLabResult = require('../models/patient-lab-result.model');
 const ApiError = require('../utils/ApiError');
 
 const getPatientById = async (patientId) => {
@@ -50,10 +51,20 @@ const getAllPatients = async () => {
   }
 };
 
+const savePatientLabTestResults = async (req, res, resultsData) => {
+  try {
+    await PatientLabResult.insertMany(resultsData);
+    res.status(httpStatus.CREATED).json({ msg: 'saved successfully' });
+  } catch (error) {
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Server error' });
+  }
+};
+
 module.exports = {
   createPatient,
   updatePatient,
   deletePatient,
   getAllPatients,
   getPatientById,
+  savePatientLabTestResults,
 };
