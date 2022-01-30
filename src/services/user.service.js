@@ -1,27 +1,7 @@
+/* eslint-disable no-underscore-dangle */
 const jwt = require('jsonwebtoken');
-const { token } = require('../config/var');
-const { roles } = require('../utils/helper');
-
-const users = [
-  {
-    _id: 1,
-    username: 'admin',
-    password: 'admin',
-    role: roles.Admin,
-  },
-  {
-    _id: 2,
-    username: 'physician',
-    password: 'physician',
-    role: roles.Physician,
-  },
-  {
-    _id: 3,
-    username: 'lab_staff',
-    password: 'lab_staff',
-    role: roles.Physician,
-  },
-];
+const { tokenSecret } = require('../config/var');
+const { users } = require('../utils/helper');
 
 const userWithoutPassword = (user) => {
   const newUser = { ...user };
@@ -38,7 +18,7 @@ const authenticateUser = async (userData) => {
       (a) => a.username === userData.username && a.password === userData.password,
     );
     if (user) {
-      const authToken = jwt.sign({}, token.secret);
+      const authToken = jwt.sign({ id: user._id, role: user.role }, tokenSecret);
       return {
         user: userWithoutPassword(user),
         token: authToken,

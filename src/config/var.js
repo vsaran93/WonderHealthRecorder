@@ -6,7 +6,5 @@ module.exports = {
   mongo: {
     uri: process.env.MONGODB_URL,
   },
-  token: {
-    secret: process.env.TOKEN_SECRET,
-  },
+  tokenSecret: process.env.TOKEN_SECRET,
 };

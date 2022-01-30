@@ -8,7 +8,29 @@ const roles = {
   Physician: 'physician',
 };
 
+const users = [
+  {
+    _id: 1,
+    username: 'admin',
+    password: 'admin',
+    role: roles.Admin,
+  },
+  {
+    _id: 2,
+    username: 'physician',
+    password: 'physician',
+    role: roles.Physician,
+  },
+  {
+    _id: 3,
+    username: 'lab_staff',
+    password: 'lab_staff',
+    role: roles.Physician,
+  },
+];
+
 module.exports = {
   upload,
   roles,
+  users,
 };
