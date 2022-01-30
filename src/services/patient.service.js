@@ -51,9 +51,20 @@ const getAllPatients = async () => {
   }
 };
 
+const findNewRecords = (oldItems, newItems) => {
+  const records = newItems.filter(
+    (newItem) => !oldItems.some((oldItem) => oldItem.patient_id === newItem.patient_id),
+  );
+  return records;
+};
+
 const savePatientLabTestResults = async (req, res, resultsData) => {
   try {
-    await PatientLabResult.insertMany(resultsData);
+    if (resultsData && resultsData.length > 0) {
+      const labResults = await PatientLabResult.find();
+      const data = findNewRecords(labResults, resultsData);
+      await PatientLabResult.insertMany(data, { ordered: false });
+    }
     res.status(httpStatus.CREATED).json({ msg: 'saved successfully' });
   } catch (error) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Server error' });
