@@ -4,7 +4,7 @@ const patientService = require('../services/patient.service');
 const createPatient = async (req, res) => {
   try {
     const patient = await patientService.createPatient(req.body);
-    res.status(httpStatus.CREATED).json({ data: patient });
+    res.status(httpStatus.OK).json({ data: patient });
   } catch (error) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'server error' });
   }

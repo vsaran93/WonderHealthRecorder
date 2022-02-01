@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "this a medical app",
   "main": "index.js",
+  "jest": {
+    "testEnvironment": "node"
+  },
   "scripts": {
     "start": "nodemon src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watchAll=false"
   },
   "author": "vishnusaran",
   "license": "ISC",
@@ -17,13 +20,17 @@
     "express": "^4.17.2",
     "http-status": "^1.5.0",
     "jsonwebtoken": "^8.5.1",
+    "mockgoose": "^8.0.4",
+    "mongodb-memory-server": "^8.2.0",
     "mongoose": "^6.1.8",
-    "multer": "^1.4.4"
+    "multer": "^1.4.4",
+    "supertest": "^6.2.2"
   },
   "devDependencies": {
     "eslint": "^8.8.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4",
+    "jest": "^27.4.7",
     "nodemon": "^2.0.15"
   }
 }

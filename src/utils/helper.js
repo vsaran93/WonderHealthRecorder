@@ -29,8 +29,17 @@ const users = [
   },
 ];
 
+const getCredentials = (userRole) => {
+  const user =  users.find(a => a.role === userRole);
+  return {
+    username: user.username,
+    password: user.password
+  }
+};
+
 module.exports = {
   upload,
   roles,
   users,
+  getCredentials
 };
