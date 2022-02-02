@@ -13,25 +13,13 @@ const { roles, getCredentials, users } = require('../src/utils/helper');
 const physicanCredentials = getCredentials(roles.Physician);
 const adminCredentials = getCredentials(roles.Admin);
 const labStaffCredentials = getCredentials(roles.LabStaff);
+const { loginUser } = require('../src/utils/auth.test.helper');
 
 const auth = {};
 
 beforeAll(async () => await conn.connect());
 beforeEach(async () => await conn.clear());
 afterAll(async () => await conn.close());
-
-const loginUser = (auth, credentials) => (done) => {
-  onResponse = (err, res) => {
-    auth.token = res.body.data.token;
-    done();
-  };
-
-  agent
-    .post('/api/v1/user/authenticate')
-    .set('Content-Type', 'application/json')
-    .send(credentials)
-    .end(onResponse);
-};
 
 describe('Patient Controller with Lab staff', () => {
   beforeAll(async () => {
