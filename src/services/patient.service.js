@@ -1,7 +1,9 @@
 const httpStatus = require('http-status');
 const Patient = require('../models/patient.model');
 const PatientLabResult = require('../models/patient-lab-result.model');
+const KnowledgeBase = require('../models/knowledge-base.model');
 const ApiError = require('../utils/ApiError');
+const { findNewRecords } = require('../utils/helper');
 
 const getPatientById = async (patientId) => {
   try {
@@ -37,7 +39,7 @@ const updatePatient = async (patientId, patientData) => {
 
 const deletePatient = async (patientId) => {
   try {
-    return Patient.remove({ _id: patientId }, true);
+    return Patient.remove({ _id: patientId });
   } catch (error) {
     throw ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'something went wring');
   }
@@ -51,19 +53,29 @@ const getAllPatients = async () => {
   }
 };
 
-const findNewRecords = (oldItems, newItems) => {
-  const records = newItems.filter(
-    (newItem) => !oldItems.some((oldItem) => oldItem.patient_id === newItem.patient_id),
-  );
-  return records;
+const newRecordsWithScore = async (labResults) => {
+  const newResults = [];
+  const knowledgeBaseScores = await KnowledgeBase.find();
+  labResults.forEach((labResult) => {
+    const baseScore = knowledgeBaseScores.find(
+      (knowledgeBaseScore) => (knowledgeBaseScore.blood_test_result === labResult.blood_test_result
+      && knowledgeBaseScore.swab_test_result === labResult.swab_test_result),
+    );
+    newResults.push({
+      ...labResult,
+      score: baseScore ? baseScore.score : null,
+    });
+  });
+  return newResults;
 };
 
 const savePatientLabTestResults = async (req, res, resultsData) => {
   try {
     if (resultsData && resultsData.length > 0) {
       const labResults = await PatientLabResult.find();
-      const data = findNewRecords(labResults, resultsData);
-      await PatientLabResult.insertMany(data, { ordered: false });
+      const data = findNewRecords(labResults, resultsData, 'patient_id');
+      const resultsWithScores = await newRecordsWithScore(data);
+      await PatientLabResult.insertMany(resultsWithScores, { ordered: false });
     }
     res.status(httpStatus.OK).json({ msg: 'saved successfully' });
   } catch (error) {

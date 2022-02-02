@@ -44,8 +44,8 @@ const getAllPhysicians = async () => {
 const updatePhysician = async (userId, userData) => {
   try {
     const physician = await User.findById(userId);
-    if (!physician) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Physician not found');
+    if (!physician || physician.role !== roles.Physician) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Bad Request');
     }
     return User.updateOne(
       { _id: userId },
@@ -61,7 +61,7 @@ const deletePhysician = async (userId) => {
   try {
     const user = await User.findById(userId);
     if (user && user.role === roles.Physician) {
-      return User.remove({ _id: userId }, true);
+      return User.remove({ _id: userId });
     }
     throw new ApiError(httpStatus.NOT_FOUND, 'Physician not found');
   } catch (e) {

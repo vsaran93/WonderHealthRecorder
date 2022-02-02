@@ -9,7 +9,7 @@ const auth = require('../middleware/auth');
 const checkRole = require('../middleware/checkRole');
 
 router.post(
-  '/upload/lab-test-result',
+  '/upload',
   upload.single('document'),
   [auth, checkRole([roles.Admin])],
   (req, res) => {

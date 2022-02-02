@@ -1,5 +1,6 @@
 const httpStatus = require('http-status');
 const userService = require('../services/user.service');
+const validation = require('../utils/validation');
 
 const authenticateUser = async (req, res) => {
   try {
@@ -24,8 +25,13 @@ const getAllPhysicians = async (req, res) => {
 
 const updatePhysician = async (req, res) => {
   try {
-    const user = await userService.updatePhysician(req.params.id, req.body);
-    res.status(httpStatus.OK).json({ data: user });
+    const { error } = validation.validateUser(req.body);
+    if (!error) {
+      res.status(httpStatus.BAD_REQUEST).json({ msg: 'Bad request' });
+    } else {
+      const user = await userService.updatePhysician(req.params.id, req.body);
+      res.status(httpStatus.OK).json({ data: user });
+    }
   } catch (error) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'server error' });
   }

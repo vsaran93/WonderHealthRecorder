@@ -16,6 +16,9 @@ const patientLabResultSchema = new Schema({
     type: String,
     required: true,
   },
+  score: {
+    type: String,
+  },
 }, {
   timestamps: false,
 });
