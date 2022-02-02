@@ -15,7 +15,7 @@ router.get(
   userController.getAllPhysicians,
 );
 
-router.post(
+router.put(
   '/update-physician/:id',
   [auth, checkRole([roles.Admin])],
   userController.updatePhysician,
