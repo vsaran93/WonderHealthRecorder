@@ -49,7 +49,7 @@ router.post(
 );
 
 router.get(
-  '/lab-test-results',
+  '/lab-results/view',
   [auth, checkRole([roles.Admin, roles.LabStaff])],
   patientController.viewLabTestResults,
 );
