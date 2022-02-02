@@ -71,6 +71,14 @@ const savePatientLabTestResults = async (req, res, resultsData) => {
   }
 };
 
+const viewLabTestResults = async () => {
+  try {
+    return PatientLabResult.find();
+  } catch (error) {
+    throw ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'something went wring');
+  }
+};
+
 module.exports = {
   createPatient,
   updatePatient,
@@ -78,4 +86,5 @@ module.exports = {
   getAllPatients,
   getPatientById,
   savePatientLabTestResults,
+  viewLabTestResults,
 };

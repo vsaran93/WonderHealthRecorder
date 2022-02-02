@@ -30,16 +30,24 @@ const users = [
 ];
 
 const getCredentials = (userRole) => {
-  const user =  users.find(a => a.role === userRole);
+  const user = users.find((a) => a.role === userRole);
   return {
     username: user.username,
-    password: user.password
-  }
+    password: user.password,
+  };
+};
+
+const findNewRecords = (oldItems, newItems, prop) => {
+  const records = newItems.filter(
+    (newItem) => !oldItems.some((oldItem) => oldItem[prop] === newItem[prop]),
+  );
+  return records;
 };
 
 module.exports = {
   upload,
   roles,
   users,
-  getCredentials
+  getCredentials,
+  findNewRecords,
 };

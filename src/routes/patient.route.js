@@ -47,4 +47,11 @@ router.post(
     fileUploadController.uploadFile(req, res, patientService.savePatientLabTestResults);
   },
 );
+
+router.get(
+  '/lab-test-results',
+  [auth, checkRole([roles.Admin, roles.LabStaff])],
+  patientController.viewLabTestResults,
+);
+
 module.exports = router;

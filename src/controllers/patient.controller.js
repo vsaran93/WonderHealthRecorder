@@ -9,7 +9,7 @@ const createPatient = async (req, res) => {
       const patient = await patientService.createPatient(req.body);
       res.status(httpStatus.OK).json({ data: patient });
     } else {
-      res.status(httpStatus.BAD_REQUEST).json({ msg: error.details[0].message });      
+      res.status(httpStatus.BAD_REQUEST).json({ msg: error.details[0].message });
     }
   } catch (error) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'server error' });
@@ -23,7 +23,7 @@ const updatePatient = async (req, res) => {
       const patient = await patientService.updatePatient(req.params.id, req.body);
       res.status(httpStatus.OK).json({ data: patient });
     } else {
-      res.status(httpStatus.BAD_REQUEST).json({ msg: error.details[0].message });      
+      res.status(httpStatus.BAD_REQUEST).json({ msg: error.details[0].message });
     }
   } catch (e) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'server error' });
@@ -57,10 +57,20 @@ const deletePatient = async (req, res) => {
   }
 };
 
+const viewLabTestResults = async (req, res) => {
+  try {
+    const testResults = await patientService.viewLabTestResults();
+    res.status(httpStatus.OK).json({ data: testResults });
+  } catch (e) {
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'server error' });
+  }
+};
+
 module.exports = {
   createPatient,
   updatePatient,
   getPatientById,
   getPatients,
   deletePatient,
+  viewLabTestResults,
 };
