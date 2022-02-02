@@ -17,6 +17,7 @@ const connect = async () => {
     }
   } catch (e) {
     console.log('There is an issue in connecting db', e);
+    process.exit(1);
   }
 };
 
@@ -32,7 +33,9 @@ const close = async () => {
 const clear = async () => {
   const { collections } = mongoose.connection;
   for (const key in collections) {
-    await collections[key].deleteMany();
+    if (collections[key].collectionName !== 'users') {
+      await collections[key].deleteMany();
+    }
   }
 };
 

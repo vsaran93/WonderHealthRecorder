@@ -7,11 +7,13 @@ const app = require('../src/app');
 
 const agent = request.agent(app);
 const conn = require('../src/config/db');
-const { roles, getCredentials } = require('../src/utils/helper');
+const User = require('../src/models/user.model');
+const { roles, getCredentials, users } = require('../src/utils/helper');
 
 const physicanCredentials = getCredentials(roles.Physician);
 const adminCredentials = getCredentials(roles.Admin);
 const labStaffCredentials = getCredentials(roles.LabStaff);
+
 const auth = {};
 
 beforeAll(async () => await conn.connect());
@@ -32,8 +34,12 @@ const loginUser = (auth, credentials) => (done) => {
 };
 
 describe('Patient Controller with Lab staff', () => {
-  beforeAll(loginUser(auth, labStaffCredentials));
+  beforeAll(async () => {
+    await User.deleteMany();
+    await User.create(users);
+  });
 
+  beforeEach(loginUser(auth, labStaffCredentials));
   test('Lab staff does not have permission to create patient', (done) => {
     agent
       .post('/api/v1/patient/create')

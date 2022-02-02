@@ -10,19 +10,26 @@ const roles = {
 
 const users = [
   {
-    _id: 1,
     username: 'admin',
     password: 'admin',
     role: roles.Admin,
   },
   {
-    _id: 2,
     username: 'physician',
     password: 'physician',
     role: roles.Physician,
   },
   {
-    _id: 3,
+    username: 'physician1',
+    password: 'physician1',
+    role: roles.Physician,
+  },
+  {
+    username: 'physician2',
+    password: 'physician2',
+    role: roles.Physician,
+  },
+  {
     username: 'lab_staff',
     password: 'lab_staff',
     role: roles.LabStaff,

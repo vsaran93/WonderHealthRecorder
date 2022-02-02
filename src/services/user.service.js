@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 const jwt = require('jsonwebtoken');
 const { tokenSecret } = require('../config/var');
-const { users } = require('../utils/helper');
+const User = require('../models/user.model');
 
 const userWithoutPassword = (user) => {
   const newUser = { ...user };
@@ -14,9 +14,7 @@ const userWithoutPassword = (user) => {
 
 const authenticateUser = async (userData) => {
   try {
-    const user = users.find(
-      (a) => a.username === userData.username && a.password === userData.password,
-    );
+    const user = await User.findOne({ username: userData.username, password: userData.password });
     if (user) {
       const authToken = jwt.sign({ id: user._id, role: user.role }, tokenSecret);
       return {
