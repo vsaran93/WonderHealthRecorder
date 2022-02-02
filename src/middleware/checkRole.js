@@ -5,8 +5,9 @@ const checkRole = (roles) => (req, res, next) => {
   if (userRole) {
     if (roles.length && !roles.includes(userRole)) {
       res.status(httpStatus.UNAUTHORIZED).json({ msg: 'You dont have permission' });
+    } else {
+      next();
     }
-    next();
   } else {
     res.status(httpStatus.BAD_REQUEST).json({ msg: 'Bad Request' });
   }

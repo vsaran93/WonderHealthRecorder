@@ -25,7 +25,7 @@ const users = [
     _id: 3,
     username: 'lab_staff',
     password: 'lab_staff',
-    role: roles.Physician,
+    role: roles.LabStaff,
   },
 ];
 

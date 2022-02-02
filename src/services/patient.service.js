@@ -65,7 +65,7 @@ const savePatientLabTestResults = async (req, res, resultsData) => {
       const data = findNewRecords(labResults, resultsData);
       await PatientLabResult.insertMany(data, { ordered: false });
     }
-    res.status(httpStatus.CREATED).json({ msg: 'saved successfully' });
+    res.status(httpStatus.OK).json({ msg: 'saved successfully' });
   } catch (error) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Server error' });
   }

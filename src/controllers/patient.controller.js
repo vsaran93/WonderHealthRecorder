@@ -1,10 +1,16 @@
 const httpStatus = require('http-status');
 const patientService = require('../services/patient.service');
+const requestValidation = require('../utils/validation');
 
 const createPatient = async (req, res) => {
   try {
-    const patient = await patientService.createPatient(req.body);
-    res.status(httpStatus.OK).json({ data: patient });
+    const { error } = requestValidation.validateCreatePatient(req.body);
+    if (!error) {
+      const patient = await patientService.createPatient(req.body);
+      res.status(httpStatus.OK).json({ data: patient });
+    } else {
+      res.status(httpStatus.BAD_REQUEST).json({ msg: error.details[0].message });      
+    }
   } catch (error) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'server error' });
   }
@@ -12,8 +18,13 @@ const createPatient = async (req, res) => {
 
 const updatePatient = async (req, res) => {
   try {
-    const patient = await patientService.updatePatient(req.params.id, req.body);
-    res.status(httpStatus.OK).json({ data: patient });
+    const { error } = requestValidation.validateUpdatePatient(req.body);
+    if (!error) {
+      const patient = await patientService.updatePatient(req.params.id, req.body);
+      res.status(httpStatus.OK).json({ data: patient });
+    } else {
+      res.status(httpStatus.BAD_REQUEST).json({ msg: error.details[0].message });      
+    }
   } catch (e) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'server error' });
   }

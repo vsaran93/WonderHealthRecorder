@@ -1,0 +1,15 @@
+patient_id,blood_test_result,swab_test_result
+P001,positive,negative
+P002,negative,negative
+P003,positive,positive
+P004,positive,negative
+P005,negative,negative
+P006,positive,positive
+P007,positive,positive
+P008,negative,positive
+P009,negative,negative
+P010,positive,negative
+P011,positive,positive
+P012,positive,negative
+P013,positive,negative
+P014,negative,negative
